@@ -1,0 +1,23 @@
+name: photo_manager_demo
+description: A demo for photo_manager plugin
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  photo_manager: ^1.2.1
+  video_player: 0.11.1+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
