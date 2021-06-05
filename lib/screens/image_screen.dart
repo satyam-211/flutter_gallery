@@ -18,7 +18,7 @@ class ImageScreen extends StatelessWidget {
         future: imageFile,
         builder: (_, snapshot) {
           final file = snapshot.data;
-          if (file == null) return Container();
+          if (file == null) return CircularProgressIndicator();
           return Image.file(file);
         },
       ),

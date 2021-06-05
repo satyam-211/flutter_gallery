@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:photo_manager_demo/screens/widgets/asset_thumbnail.dart';
+
+import 'image_screen.dart';
 
 class Gallery extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _GalleryState extends State<Gallery> {
       return;
     }
     final albums = await PhotoManager.getAssetPathList(
-        onlyAll: true,
+        type: RequestType.image,
         filterOption: FilterOptionGroup(
             createTimeCond: DateTimeCond(min: startDate, max: endDate)));
     final recentAlbum = albums.first;
@@ -27,6 +28,11 @@ class _GalleryState extends State<Gallery> {
       start: 0,
       end: 1000000,
     );
+    // recentAssets.removeWhere(
+    //   (element) =>
+    //       (element.longitude == null && element.longitude == null) ||
+    //       (element.latitude == 0 && element.longitude == 0),
+    // );
     setState(() => assets = recentAssets);
   }
 
@@ -61,7 +67,7 @@ class _GalleryState extends State<Gallery> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Flexible(
-            flex: 3,
+            flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -101,15 +107,32 @@ class _GalleryState extends State<Gallery> {
           assets == null || assets.length == 0
               ? Flexible(flex: 2, child: Text('No image found'))
               : Flexible(
-                  flex: 7,
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                    ),
+                  flex: 8,
+                  child: ListView.builder(
                     itemCount: assets.length,
                     itemBuilder: (_, index) {
-                      return AssetThumbnail(asset: assets[index]);
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          children: [
+                            Text(
+                              'Id: ${assets[index].id}',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            Text(
+                              'Title: ${assets[index].title}',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            Expanded(
+                              child: ImageScreen(
+                                imageFile: assets[index].file,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     },
+                    scrollDirection: Axis.horizontal,
                   ),
                 ),
         ],
